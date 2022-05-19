@@ -3,6 +3,7 @@ import './App.css';
 import CreateUser from './components/CreateUser';
 import EditUser from './components/EditUser';
 import ListUser from './components/ListUser';
+import CreateTable from './components/CreateTable';
 
 function App() {
   return (
@@ -19,14 +20,14 @@ function App() {
               <Link to="user/create">Create User</Link>
             </li>
             <li>
-              <Link to="user/nTable">Create new DB table</Link>
+              <Link to="table/create">Create new DB table</Link>
             </li>
           </ul>
         </nav>
         <Routes>
           <Route index element={<ListUser />} />
           <Route path="user/create" element={<CreateUser />} />
-          <Route path="user/nTable" element={<CreateTable />} />
+          <Route path="table/create" element={<CreateTable />} />
           <Route path="user/:id/edit" element={<EditUser />} />
         </Routes>
       </BrowserRouter>

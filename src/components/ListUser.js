@@ -6,10 +6,18 @@ export default function ListUser() {
     const original = 'http://crud.raicom.online';
 
     const [users, setUsers] = useState([]);
+    const [tables, setTables] = useState([]);
     useEffect(() => {
         getUsers();
+        getTables()
     }, []);
 
+    function getTables() {
+        axios.get(`${original}/api/tables`).then(function(response) {
+            console.log(response.data);
+            setTables(response.data);
+        });
+    }
     function getUsers() {
         axios.get(`${original}/api/user`).then(function(response) {
             console.log(response.data);
@@ -47,6 +55,24 @@ export default function ListUser() {
                                 <Link to={`user/${user.id}/edit`} style={{marginRight: "10px"}}>Edit</Link>
                                 <button onClick={() => deleteUser(user.id)}>Delete</button>
                             </td>
+                        </tr>
+                    )}
+                    
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>                        
+                        <th>Name</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    {tables.map((table, key) =>
+                        <tr key={key}>
+                           
+                            <td>{table[Object.keys(table)[0]]}</td>                           
+                                {/* <Link to={`user/${user.id}/edit`} style={{marginRight: "10px"}}>Edit</Link>
+                                <button onClick={() => deleteUser(user.id)}>Delete</button>      */}                       
                         </tr>
                     )}
                     
