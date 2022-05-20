@@ -37,7 +37,8 @@ switch ($method) {
         break;
     case "POST":
         $data = json_decode(file_get_contents('php://input'));
-        if ($data->type == 'table') {
+        $path = explode('/', $_SERVER['REQUEST_URI']);
+        if (isset($path[2]) && $path[2] == 'table') {
             $sql = "CREATE TABLE IF NOT EXISTS " . $data->name . " (
                 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(30) NULL,
@@ -70,10 +71,6 @@ switch ($method) {
             echo json_encode($response);
             break;
         }
-
-
-
-
     case "PUT":
         $user = json_decode(file_get_contents('php://input'));
         $sql = "UPDATE users SET name= :name, email =:email, mobile =:mobile, updated_at =:updated_at WHERE id = :id";
@@ -96,15 +93,26 @@ switch ($method) {
     case "DELETE":
         $sql = "DELETE FROM users WHERE id = :id";
         $path = explode('/', $_SERVER['REQUEST_URI']);
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':id', $path[3]);
-
-        if ($stmt->execute()) {
-            $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
+        if (isset($path[2]) && $path[2] == 'tables') {
+            $sql = "DROP TABLE " . $path[3];
+            $stmt = $conn->prepare($sql);
+            if ($stmt->execute()) {
+                $response = ['status' => 1, 'message' => 'Record created successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to create record.'];
+            }
+            echo json_encode($response);
+            break;
         } else {
-            $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':id', $path[3]);
+
+            if ($stmt->execute()) {
+                $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+            }
+            echo json_encode($response);
+            break;
         }
-        echo json_encode($response);
-        break;
 }

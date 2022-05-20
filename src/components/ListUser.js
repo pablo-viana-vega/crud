@@ -9,7 +9,7 @@ export default function ListUser() {
     const [tables, setTables] = useState([]);
     useEffect(() => {
         getUsers();
-        getTables()
+        getTables();
     }, []);
 
     function getTables() {
@@ -29,6 +29,12 @@ export default function ListUser() {
         axios.delete(`${original}/api/user/${id}/delete`).then(function(response){
             console.log(response.data);
             getUsers();
+        });
+    }
+    const deleteTable = (name) => {
+        axios.delete(`${original}/api/tables/${name}/delete`).then(function(response){
+            console.log(response.data);
+            getTables()
         });
     }
     return (
@@ -71,8 +77,8 @@ export default function ListUser() {
                         <tr key={key}>
                            
                             <td>{table[Object.keys(table)[0]]}</td>                           
-                                {/* <Link to={`user/${user.id}/edit`} style={{marginRight: "10px"}}>Edit</Link>
-                                <button onClick={() => deleteUser(user.id)}>Delete</button>      */}                       
+                                {/* <Link to={`user/${user.id}/edit`} style={{marginRight: "10px"}}>Edit</Link> */}
+                                <button onClick={() => deleteTable(table[Object.keys(table)[0]])}>Delete</button>                            
                         </tr>
                     )}
                     
