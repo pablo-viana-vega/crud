@@ -10,33 +10,33 @@ export default function ListUser() {
   const [count, setCount] = useState(0);
 
   const addRow = () => {
-    setCount(count + 1);
+    setCount((count) => count + 1);
     const table = document.getElementById("table");
-    const row = table.insertRow({count});
+    const row = table.insertRow();
     const cell1 = row.insertCell(0);
     const cell2 = row.insertCell(1);
     const cell3 = row.insertCell(2);
-    const removeBtn = document.createElement("button");
-    removeBtn.id = {count};
+    const removeBtn = document.createElement("button");    
     removeBtn.type = "button";
     removeBtn.innerHTML = "Remove";
-    removeBtn.addEventListener("click", function(){
-      console.log(this);
+    removeBtn.addEventListener("click", function () {
+      removeRow(this.parentElement.parentElement.rowIndex - 1);
+      /*  console.log(this);
       table.deleteRow(this.id);
-      setCount(count - 1);
+      setCount(count => count - 1); */
     });
     cell1.innerHTML = `<input type="text" name="name" id="name" placeholder="Name" />`;
     cell2.innerHTML = `<select name="datatype">
                         <option value="text">Text</option>
                         <option value="number">Number</option>
-                        <option value="tables">tables</option>
+                        <option value="pass">Password</option>
                       </select>`;
     cell3.appendChild(removeBtn);
   };
   const removeRow = (rowindex) => {
     const table = document.getElementById("table");
     table.deleteRow(rowindex);
-    setCount(count - 1);
+    setCount((count) => count - 1);
   };
   const handleChange = (event) => {
     const name = event.target.name;
@@ -57,8 +57,8 @@ export default function ListUser() {
     <div>
       <h1>Create New Data Base Table</h1>
       <form onSubmit={handleSubmit}>
-        <table cellSpacing="10" id="table">
-          <tbody>
+        <table cellSpacing="10">
+          <thead>
             <tr>
               <th>
                 <label>Name: </label>
@@ -70,17 +70,20 @@ export default function ListUser() {
                 <label>Columns: {count} </label>
               </th>
               <td>
-                <button type="button" onClick={() => addRow()}>Add</button>
+                <button type="button" onClick={() => addRow()}>
+                  Add
+                </button>
               </td>
             </tr>
-            <tfoot>
-              <tr>
-                <td colSpan="2" align="right">
-                  <button>Save</button>
-                </td>
-              </tr>
-            </tfoot>
-          </tbody>
+          </thead>
+          <tbody id="table"></tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="2" align="right">
+                <button>Save</button>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </form>
     </div>
