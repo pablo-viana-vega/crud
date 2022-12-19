@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function ListUser() {
-    const original = 'http://crud.raicom.online';
+    const original = 'https://crud.viansoftware.com.br';
 
     const [users, setUsers] = useState([]);
     const [tables, setTables] = useState([]);
