@@ -69,7 +69,7 @@ export default function ListUser() {
             <table>
                 <thead>
                     <tr>                        
-                        <th>Name</th>                       
+                        <th>DB TABLES</th>                       
                     </tr>
                 </thead>
                 <tbody>
