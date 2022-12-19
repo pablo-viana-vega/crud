@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function ListUser() {
-  const original = "http://crud.raicom.online";
+  const original = "https://crud.viansoftware.com.br";
   const navigate = useNavigate();
 
   const [inputs, setInputs] = useState([]);
